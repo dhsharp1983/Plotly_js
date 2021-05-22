@@ -115,7 +115,7 @@ function BuildBarGraph(x_data, y_data, hover_data) {
     var data = [trace1];
 
     var chartLayout = {
-        title: "Bacteria Colonies in Bellybutton (yum yum)",
+        title: "Top 10 Bacteria Colonies in Bellybutton (yum yum)",
         // xaxis: {
         //     autorange: "reversed"
         // },
@@ -126,12 +126,29 @@ function BuildBarGraph(x_data, y_data, hover_data) {
     Plotly.newPlot("bar", data, chartLayout);
 
 };
-    // var chartData = [trace1];
 
-    // };
-    // Plotly.newPlot("bar", chartData, chartLayout)
+function BuildBubbleChart (otu_ids, sample_values, otu_labels) {
+    var trace1 = {
+        x: otu_ids,
+        y: sample_values, 
+        mode: "markers",
+        marker: {
+            size: sample_values * 20,
+        }
+    };
+    
+    var data = [trace1];
 
+    var layout = {
+        title: "Foo",
+        showlegend: true,
+    }
+    Plotly.newPlot("bubble", data, layout)
+}
 
+function BuildMetaTab (candidate_meta_ethnicity, candidate_meta_gender, candidate_meta_age, candidate_meta_location, candidate_meta_bbtype, candidate_meta_wfreq) {
+    console.log("foo")
+}
 
 
 mainFunction();
