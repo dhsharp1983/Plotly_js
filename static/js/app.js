@@ -134,12 +134,16 @@ function BuildBarGraph(x_data, y_data, hover_data) {
 };
 
 function BuildBubbleChart (otu_ids, sample_values, otu_labels) {
+    var myColor = d3.scaleOrdinal()
+    .domain(otu_ids)
+    .range(d3.schemeSet2);
+
     var trace1 = {
         x: otu_ids,
         y: sample_values, 
         mode: "markers",
         marker: {
-            size: sample_values * 20,
+            size: sample_values.map(element => element /2),
         }
     };
     
@@ -147,7 +151,7 @@ function BuildBubbleChart (otu_ids, sample_values, otu_labels) {
 
     var layout = {
         title: "Scatter Plot of Bacteria IDs vs Sample Count",
-        showlegend: true,
+        showlegend: false,
     }
     Plotly.newPlot("bubble", data, layout)
 }
