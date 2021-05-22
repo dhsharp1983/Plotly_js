@@ -83,12 +83,18 @@ function SortData(inputdata) {
     otu_ids_str = otu_ids.map(convertAsString);
 
     // meta data 
-    var candidate_meta_ethnicity = inputdata.metadata[candidate_index]["ethnicity"];
-    var candidate_meta_gender = inputdata.metadata[candidate_index]["gender"];
-    var candidate_meta_age = inputdata.metadata[candidate_index]["age"];
-    var candidate_meta_location = inputdata.metadata[candidate_index]["location"]
-    var candidate_meta_bbtype = inputdata.metadata[candidate_index]["bbtype"]
-    var candidate_meta_wfreq = inputdata.metadata[candidate_index]["wfreq"];
+    const str1 = "Ethnicity: ";
+    const str2 = "Gender: ";
+    const str3 = "Age: ";
+    const str4 = "Location: ";
+    const str5 = "bbtype: ";
+    const str6 = "wfreq: "
+    var candidate_meta_ethnicity = str1.concat(inputdata.metadata[candidate_index]["ethnicity"]);
+    var candidate_meta_gender = str2.concat(inputdata.metadata[candidate_index]["gender"]);
+    var candidate_meta_age = str3.concat(inputdata.metadata[candidate_index]["age"]);
+    var candidate_meta_location = str4.concat(inputdata.metadata[candidate_index]["location"]);
+    var candidate_meta_bbtype = str5.concat(inputdata.metadata[candidate_index]["bbtype"]);
+    var candidate_meta_wfreq = str6.concat(inputdata.metadata[candidate_index]["wfreq"]);
     
     
 
@@ -140,15 +146,29 @@ function BuildBubbleChart (otu_ids, sample_values, otu_labels) {
     var data = [trace1];
 
     var layout = {
-        title: "Foo",
+        title: "Scatter Plot of Bacteria IDs vs Sample Count",
         showlegend: true,
     }
     Plotly.newPlot("bubble", data, layout)
 }
 
 function BuildMetaTab (candidate_meta_ethnicity, candidate_meta_gender, candidate_meta_age, candidate_meta_location, candidate_meta_bbtype, candidate_meta_wfreq) {
-    console.log("foo")
-}
+    var meta_array = []
+    meta_array.push(candidate_meta_ethnicity, candidate_meta_gender, candidate_meta_age, candidate_meta_location, candidate_meta_bbtype, candidate_meta_wfreq)
+    meta_array.forEach(element => console.log(element));
+    var table = d3.select("#sample-metadata").append("table");
+    var thead = table.append("thead")
+    var tbody = table.append("tbody");
+    var rows = tbody.selectAll("tr")
+        .data(meta_array)
+        .enter()
+        .append("tr")
+        .append("td")
+        .text(function(d) {
+            return d
+        });
+
+};
 
 
 mainFunction();
@@ -158,5 +178,6 @@ mainFunction();
 
 function optionChanged() {
     console.log("function optionChange")
+    d3.select("#sample-metadata").selectAll("tr").remove();
     ReadInJSONData(jsonfile)
 }
